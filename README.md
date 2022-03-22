@@ -1,5 +1,5 @@
 # Rust Global Stats to Discord Bot in Python
-Simple bot utilising the battlemetrics api to display your server pop to a discord bot!
+Simple bot utilising the battlemetrics api to display your server stats to a discord bot!
 
 * Fill in config.json as below
 * Then run **pip install -r requirements.txt** in your console and run the main.py file
