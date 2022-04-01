@@ -26,6 +26,6 @@ config.json
 * Bot Token can be found at https://discord.com/developers/applications
 * Bm Org ID is the id at the end on the org management page eg 46894 is the id here 
 ![Example](https://cdn.discordapp.com/attachments/860941782887039007/955835388876967978/Screenshot_2022-03-22_at_14.28.19.png)
-* Ban list ID can be found under the ban list section by editing a ban list eg dc27cd80-5ecf-11ec-a3b5-5504f08c6982/25068 is the ban list id
+* Ban list ID can be found under the ban list section by editing a ban list eg dc27cd80-5ecf-11ec-a3b5-5504f08c6982 is the ban list id
 ![Example](https://cdn.discordapp.com/attachments/860941782887039007/955836171118850129/Screenshot_2022-03-22_at_14.31.19.png)
 * A Bm developer key can be obtained at https://www.battlemetrics.com/developers
