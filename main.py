@@ -22,7 +22,7 @@ async def on_ready():
     print("We have logged in as {0.user}".format(client))
     
 
-@tasks.loop(seconds=15.0)
+@tasks.loop(seconds=30.0)
 async def global_status():
     statuss = []
     server_ids = []
