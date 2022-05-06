@@ -40,7 +40,6 @@ async def global_status():
         async with session.get(url, headers= {"Authorization" : "Bearer " +secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
                 print(f"Error with status code: {resp.status}")
-                await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"Error collecting stats."))
             if resp.status == 200:
                 resp_dict = json.loads(await resp.text())
 
@@ -50,20 +49,20 @@ async def global_status():
                     que = que + serverid["attributes"]["details"]["rust_queued_players"]
                     entity = entity + serverid["attributes"]["details"]["rust_ent_cnt_i"]
 
-                if que >= 1:
-                    statuss.append(f"Global Pop : {connected}/{max}(+{que})")
-                else:
-                    statuss.append(f"Global Pop : {connected}/{max}")
+    if que >= 1:
+        statuss.append(f"Global Pop : {connected}/{max}(+{que})")
+    else:
+        statuss.append(f"Global Pop : {connected}/{max}")
 
-                if que > 0:
-                    que = f"{que} Queued Users"
-                    statuss.append(que)
+    if que > 0:
+        que = f"{que} Queued Users"
+        statuss.append(que)
 
-                entity = f"{entity} Total Entities"
-                statuss.append(entity)
-                
-                status = random.choice(statuss)
-                await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+    entity = f"{entity} Total Entities"
+    statuss.append(entity)
+    
+    status = random.choice(statuss)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
 
 
 @global_status.before_loop
