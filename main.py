@@ -1,14 +1,14 @@
 import json
 import discord
 import random
-from discord import Intents, Game
 from discord.ext import commands, tasks
 import aiohttp
+import asyncio
 
 with open("./config.json", "r") as file:
     secret_file = json.load(file)
 
-client = commands.Bot(command_prefix=")(", help_command=None)
+client = commands.Bot(command_prefix="",help_command=None,intents=discord.Intents.default())
 
 @client.event
 async def on_ready():
@@ -50,9 +50,9 @@ async def global_status():
                     entity = entity + serverid["attributes"]["details"]["rust_ent_cnt_i"]
 
     if que >= 1:
-        statuss.append(f"Global Pop : {connected}/{max}(+{que})")
+        statuss.append(f"Global Pop : {connected} Ingame (+{que})")
     else:
-        statuss.append(f"Global Pop : {connected}/{max}")
+        statuss.append(f"Come join {connected} others!")
 
     if que > 0:
         que = f"{que} Queued Users"
@@ -61,14 +61,15 @@ async def global_status():
     entity = f"{entity} Total Entities"
     statuss.append(entity)
     
-    status = random.choice(statuss)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
-
+    await client.change_presence(status=discord.Status.online,activity=discord.Game(name=random.choice(statuss)))
 
 @global_status.before_loop
 async def before_global_status():
     await client.wait_until_ready()
 
-if __name__ == "__main__":
-    global_status.start()
-    client.run(secret_file["BotToken"])
+async def main():
+    if __name__ == "__main__":
+        async with client:
+            global_status.start()
+            await client.start(secret_file["BotToken"],reconnect=True)
+asyncio.run(main())
