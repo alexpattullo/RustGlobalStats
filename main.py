@@ -26,27 +26,24 @@ async def on_command_error(ctx, error):
 @tasks.loop(seconds=20.0)
 async def global_status():
     statuss = []
-
     #Bans
-    url = "https://api.battlemetrics.com/bans?filter[banList]=" + secret_file["BanListID"] + "&include=user,server"
+    url = f"https://api.battlemetrics.com/bans?filter[banList]={secret_file['BanListID']}&include=user,server"
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers= {"Authorization" : "Bearer " + secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
                 print(f"Error with status code: {resp.status}")
             if resp.status == 200:
                 banlist = json.loads(await resp.text())
-                activebans = banlist["meta"]["active"]
-                abans = f"Active Bans : {activebans}"
-                statuss.append(abans)
+                statuss.append(f"Active Bans : {banlist['meta']['active']}")
 
     #AllServers
     connected = 0
     que = 0
     entity = 0 
     max = 0
-    url = f"https://api.battlemetrics.com/servers?filter[organizations]=" + secret_file["BmOrgID"]
+    url = f"https://api.battlemetrics.com/servers?filter[organizations]={secret_file['BmOrgID']}"
     async with aiohttp.ClientSession() as session:
-        async with session.get(url, headers= {"Authorization" : "Bearer " +secret_file["BmApiKey"]}) as resp:
+        async with session.get(url, headers= {"Authorization" : "Bearer " + secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
                 print(f"Error with status code: {resp.status}")
             if resp.status == 200:
@@ -54,9 +51,9 @@ async def global_status():
 
                 for serverid in resp_dict["data"]:
                     connected = connected + serverid["attributes"]["players"]
-                    max =  max + serverid["attributes"]["maxPlayers"]
-                    que = que + serverid["attributes"]["details"]["rust_queued_players"]
-                    entity = entity + serverid["attributes"]["details"]["rust_ent_cnt_i"]
+                    max += serverid["attributes"]["maxPlayers"]
+                    que += serverid["attributes"]["details"]["rust_queued_players"]
+                    entity += serverid["attributes"]["details"]["rust_ent_cnt_i"]
 
     if que >= 1:
         statuss.append(f"Global Pop : {connected} Ingame (+{que})")
@@ -64,11 +61,9 @@ async def global_status():
         statuss.append(f"Come join {connected} others!")
 
     if que > 0:
-        que = f"{que} Queued Users"
-        statuss.append(que)
+        statuss.append(f"{que} Queued Users")
 
-    entity = f"{entity} Total Entities"
-    statuss.append(entity)
+    statuss.append(f"{entity} Total Entities")
     
     await client.change_presence(status=discord.Status.online,activity=discord.Game(name=random.choice(statuss)))
 
