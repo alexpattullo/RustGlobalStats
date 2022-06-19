@@ -14,6 +14,15 @@ client = commands.Bot(command_prefix="",help_command=None,intents=discord.Intent
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
 
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error , commands.CommandNotFound):
+        return
+    else:
+        raise error
+
+
 @tasks.loop(seconds=20.0)
 async def global_status():
     statuss = []
