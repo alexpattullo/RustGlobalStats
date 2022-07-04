@@ -45,7 +45,7 @@ async def global_status():
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers= {"Authorization" : "Bearer " + secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
-                print(f"Error with status code: {resp.status}")
+                print(f"Error with status code: {resp.status} from {url}")
             if resp.status == 200:
                 resp_dict = json.loads(await resp.text())
 
