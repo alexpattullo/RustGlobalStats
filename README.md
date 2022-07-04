@@ -12,7 +12,7 @@ NB : If your not using a bot container :
 You will need to install python and git (must be 3.7+)
 (https://www.youtube.com/watch?v=XF_rklW9XkU&ab_channel=CBTNuggets)
 
-Also might need to install git you get an error like this (https://i.imgur.com/1Cl6whB.png)
+Also might need to install git if you get an error like this (https://i.imgur.com/1Cl6whB.png)
 https://www.linode.com/docs/guides/how-to-install-git-on-linux-mac-and-windows/
 
 
