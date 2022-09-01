@@ -31,10 +31,10 @@ async def global_status():
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers= {"Authorization" : "Bearer " + secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
-                print(f"Error with status code: {resp.status}")
+                print(f"Error with status code: {resp.status} - {url}")
             if resp.status == 200:
                 banlist = json.loads(await resp.text())
-                statuss.append(f"Active Bans : {banlist['meta']['active']}")
+                statuss.append(f"Active Bans : {banlist['meta']['active']:,}")
 
     #AllServers
     connected = 0
@@ -45,7 +45,7 @@ async def global_status():
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers= {"Authorization" : "Bearer " + secret_file["BmApiKey"]}) as resp:
             if resp.status != 200:
-                print(f"Error with status code: {resp.status} from {url}")
+                print(f"Error with status code: {resp.status} - {url}")
             if resp.status == 200:
                 resp_dict = json.loads(await resp.text())
 
@@ -56,14 +56,14 @@ async def global_status():
                     entity += serverid["attributes"]["details"]["rust_ent_cnt_i"]
 
     if que >= 1:
-        statuss.append(f"Global Pop : {connected} Ingame (+{que})")
+        statuss.append(f"Global Pop : {connected:,} Ingame (+{que:,})")
     else:
-        statuss.append(f"Come join {connected} others!")
+        statuss.append(f"Come join {connected:,} others!")
 
     if que > 0:
-        statuss.append(f"{que} Queued Users")
+        statuss.append(f"{que:,} Queued Users")
 
-    statuss.append(f"{entity} Total Entities")
+    statuss.append(f"{entity:,} Total Entities")
     
     await client.change_presence(status=discord.Status.online,activity=discord.Game(name=random.choice(statuss)))
 
