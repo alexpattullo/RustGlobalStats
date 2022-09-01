@@ -65,7 +65,7 @@ async def global_status():
 
     statuss.append(f"{entity:,} Total Entities")
     
-    await client.change_presence(status=discord.Status.online,activity=discord.Game(name=random.choice(statuss)))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=random.choice(statuss)))
 
 @global_status.before_loop
 async def before_global_status():
